@@ -1,4 +1,4 @@
 # UKB_knee_segmentation
 
-![](Figures/knee_segmentation.png)
+![image](Figures/knee_segmentation.png)
 
