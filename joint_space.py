@@ -44,81 +44,80 @@ def numpy_identity(matrix):
 	return x, y
 
 def tibia_array(image_array, femur = 1, tibia = 2, fibula = None, patella = None):
-  
-  image_array = np.copy(image_array)
-  np.place(image_array, image_array == femur, 0)
-  if fibula != None:
-    np.place(image_array, image_array == fibula, 0)
-  if patella != None:
-    np.place(image_array, image_array == patella, 0)
+	image_array = np.copy(image_array)
+  	np.place(image_array, image_array == femur, 0)
+  	if fibula != None:
+		np.place(image_array, image_array == fibula, 0)
+  	if patella != None:
+		np.place(image_array, image_array == patella, 0)
 
-  np.place(image_array, image_array == tibia, 1)
+  	np.place(image_array, image_array == tibia, 1)
 
-  if len(np.unique(image_array)) != 2:
-    print("\nIdentity matrix did not get made, check the number of unique elements in input matrix. Number of elements must be > 2\n") 
- 
-  assert len(np.unique(image_array)) == 2
-
-  return image_array
+  	if len(np.unique(image_array)) != 2:
+		print("\nIdentity matrix did not get made, check the number of unique elements in input matrix. Number of elements must be > 2\n")
+		
+	assert len(np.unique(image_array)) == 2
+	
+	return image_array
 
 def femur_array(image_array, femur = 1, tibia = 2, fibula = None, patella = None):
-  
-  image_array = np.copy(image_array)
-  np.place(image_array, image_array == tibia, 0)
-  if fibula != None:
-    np.place(image_array, image_array == fibula, 0)
-  if patella != None:
-    np.place(image_array, image_array == patella, 0)
-
-  np.place(image_array, image_array == femur, 1)
-
-  if len(np.unique(image_array)) != 2:
-    print("\nIdentity matrix did not get made, check the number of unique elements in input matrix. Number of elements must be > 2\n") 
- 
-  assert len(np.unique(image_array)) == 2
-
-  return image_array
-
-# def value_max_width_len(values):
-#   j = values[np.fromiter(map(len, values), int).argmax()] # use this to get the longest array from an array of arrays
-#   return j
+	image_array = np.copy(image_array)
+  	np.place(image_array, image_array == tibia, 0)
+	
+	if fibula != None:
+		np.place(image_array, image_array == fibula, 0)
+	if patella != None:
+		np.place(image_array, image_array == patella, 0)
+		
+	np.place(image_array, image_array == femur, 1)
+	
+	if len(np.unique(image_array)) != 2:
+		print("\nIdentity matrix did not get made, check the number of unique elements in input matrix. Number of elements must be > 2\n") 
+		
+	assert len(np.unique(image_array)) == 2
+	
+	return image_array
 
 def get_joint_space(femur, tibia):
-  
-  def value_max_width_len(values):
-    j = values[np.fromiter(map(len, values), int).argmax()] # use this to get the longest array from an array of arrays
-    return j
-    
-  x, y = numpy_identity(tibia)
-  xmax = value_max_width_len(x)
-  length = len(xmax)
-  quads = length//4
+	
+	def value_max_width_len(values):
+		j = values[np.fromiter(map(len, values), int).argmax()] # use this to get the longest array from an array of arrays
+		return j
+	# get max width of tibia and break up into quadrants, use second quad, midpoint and third quad
+	x, y = numpy_identity(tibia)
+  	xmax = value_max_width_len(x)
+  	length = len(xmax)
+  	quads = length//4
 
-  quad_a = quads + xmax[0]
-  half_point = xmax[0] + length // 2
-  quad_b = abs(quads - xmax[-1]) 
+  	quad_a = quads + xmax[0]
+  	half_point = xmax[0] + length // 2
+  	quad_b = abs(quads - xmax[-1])
+	
+	# y_* are the y coordinates of the tibia that correspond to each quadrant
+  	y_qa = y[quad_a][0]
+  	y_qb = y[quad_b][0]
+  	y_half = y[half_point][0]
+	
+	# yf* are the y coordinates of the femur that correspond to each quadrant
+  	_, y = numpy_identity(femur)
+  	yfqa = y[quad_a][-1]
+  	yfha = y[half_point][-1]
+  	yfqb = y[quad_b][-1]
+	
+	# get the joint space distances by calculating the absolute value of the difference between y coordinates
+  	a = abs(y_qa - yfqa)
+  	h = abs(y_half - yfha)
+  	b = abs(y_qb - yfqb)
 
-  y_qa = y[quad_a][0]
-  y_qb = y[quad_b][0]
-  y_half = y[half_point][0]
+  	average = (a + h + b) / 3
+	
+	# average will be large if the order of arguments is incorrect, expect averages to be ~0 to ~50
+  	if average >= 100:
+		print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
 
-  _, y = numpy_identity(femur)
-  yfqa = y[quad_a][-1]
-  yfha = y[half_point][-1]
-  yfqb = y[quad_b][-1]
+  	joint_space = {"quad_1" : a, "quad_2" : h, "quad_3" : b, "average": average}
 
-  a = abs(y_qa - yfqa)
-  h = abs(y_half - yfha)
-  b = abs(y_qb - yfqb)
-
-  average = (a + h + b) / 3
-
-  if average >= 100:
-    print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
-
-  joint_space = {"quad_1" : a, "quad_2" : h, "quad_3" : b, "average": average}
-
-  return joint_space
+  	return joint_space
 
 tibia = tibia_array(data)
 femur = femur_array(data)
