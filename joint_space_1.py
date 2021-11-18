@@ -157,8 +157,6 @@ def get_joint_space_10(femur, tibia):
 	
 	y_qa = y[quad_a][0]
 	y_qa_0 = y[quad_a_0][0]
-	print(y_qa_0)
-
 	y_qa_1 = y[quad_a_1][0]
 	
 	y_qb = y[quad_b][0]
@@ -190,7 +188,6 @@ def get_joint_space_10(femur, tibia):
 	
 	yfqb = y[quad_b][-1]
 	yfqb0 = y[quad_b_0][-1]
-	#yfqb1 = y[quad_b_1][-1]
 	
 	_a = abs(y_qa - yfqa)
 	_a1 = abs(y_qa_1 - yfqa1)
@@ -211,32 +208,31 @@ def get_joint_space_10(femur, tibia):
 	
 	_b = abs(y_qb - yfqb)
 	_b0 = abs(y_qb_0 - yfqb0)
-# 	_b1 = abs(y_qb_1 - yfqb1)
-# 	
-# 	_average = (_a + _a0 + _a1 + _h + _h0 + _h1 + _b + _b0 + _b1) / 9
-# 	
-# 	def normalize(*args):
-# 		
-# 		ans = []
-# 		for a in args:
-# 			an = a / length
-# 			ans.append(an)
-# 			
-# 		return ans
-# 				
-# 		
-# 	norms = normalize(_a, _a0, _a1, _h, _h0, _h1, _b, _b0, _b1, _average)
-# 	
-# 	a = sum(norms[:3]) / 3
-# 	b = sum(norms[3:6]) / 3
-# 	c = sum(norms[3:6]) / 3
-# 	
-# 	if _average >= 100:
-# 		print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
-# 		
-# 	joint_space = {"quad_1" : norms[:3], "quad_1_av": a, "quad_2" : norms[3:6], "quad_2_av": b, "quad_3" : norms[6:9], "quad_3_av": c, "average": norms[-1], "not_normal_q1-q3": [_a, _a0, _a1, _h, _h0, _h1, _b, _b0, _b1], "not_normal_average": _average, "xmax": length}
-# 
-# 	return joint_space
+
+	_average = (_a + _a0 + _a1 + _h + _h0 + _h1 + _b + _b0 + _b1) / 9
+	
+	def normalize(*args):
+		
+		ans = []
+		for a in args:
+			an = a / length
+			ans.append(an)
+			
+		return ans
+				
+		
+	norms = normalize(_a, _a0, _a1, _h, _h0, _h1, _b, _b0, _b1, _average)
+	
+	a = sum(norms[:3]) / 3
+	b = sum(norms[3:6]) / 3
+	c = sum(norms[3:6]) / 3
+	
+	if _average >= 100:
+		print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
+		
+	joint_space = {"quad_1" : norms[:3], "quad_1_av": a, "quad_2" : norms[3:6], "quad_2_av": b, "quad_3" : norms[6:9], "quad_3_av": c, "average": norms[-1], "not_normal_q1-q3": [_a, _a0, _a1, _h, _h0, _h1, _b, _b0, _b1], "not_normal_average": _average, "xmax": length}
+
+	return joint_space
 
 #########################################################################################
 
@@ -272,21 +268,21 @@ def runner(files, path, df):
         
         js = get_joint_space_10(femur, tibia)
         
-#         if js['average'] >= 100:
-#         	f = "WARNING_" + f
-#         elif js['not_normal_average'] >= 100:
-#         	f = "WARNING_" + f
-#         else:
-#         	pass
-#         
-#         image_name = {'file': f}
-#         
-#         j = {**image_name, **js}
-#         
-#         df = df.append(j, True)
-#         
-#     return df
+        if js['average'] >= 100:
+        	f = "WARNING_" + f
+        elif js['not_normal_average'] >= 100:
+        	f = "WARNING_" + f
+        else:
+        	pass
+        
+        image_name = {'file': f}
+        
+        j = {**image_name, **js}
+        
+        df = df.append(j, True)
+        
+    return df
     
 data = runner(lines, path, df)
-# data.to_csv(fullname, index=False)
-# print(fullname, "successfully written")
+data.to_csv(fullname, index=False)
+print(fullname, "successfully written")
