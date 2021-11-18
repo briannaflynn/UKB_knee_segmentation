@@ -154,6 +154,7 @@ df = data_init(col_list)
 def runner(files, path, df):
     
     for f in files:
+    	print("Starting file:", f)
         input = path + f
         image = Image.open(input)
         data = asarray(image)
