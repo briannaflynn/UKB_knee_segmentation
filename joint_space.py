@@ -163,6 +163,13 @@ def runner(files, path, df):
         
         js = get_joint_space(femur, tibia)
         
+        if js['average'] >= 100:
+        	f = "WARNING_" + f
+        elif js['not_normal_average'] >= 100:
+        	f = "WARNING_" + f
+        else:
+        	pass
+        
         image_name = {'file': f}
         
         j = {**image_name, **js}

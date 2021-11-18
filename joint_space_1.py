@@ -252,6 +252,8 @@ def runner(files, path, df):
         
         if js['average'] >= 100:
         	f = "WARNING_" + f
+        elif js['not_normal_average'] >= 100:
+        	f = "WARNING_" + f
         else:
         	pass
         
