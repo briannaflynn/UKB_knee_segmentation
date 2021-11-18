@@ -8,9 +8,18 @@ from os import listdir
 import argparse
 from numpy import asarray
 import sys
+import pandas as pd
+import datetime
 
-image = Image.open(sys.argv[1])
-data = asarray(image)
+def data_init(cols):
+    
+    df = pd.DataFrame()
+    for i in range(len(cols)):
+        c = cols[i]
+        df[c] = None
+        
+    return df
+
 
 def numpy_identity(matrix):
 	
@@ -97,23 +106,71 @@ def get_joint_space(femur, tibia):
 	yfha = y[half_point][-1]
 	yfqb = y[quad_b][-1]
 	
-	a = abs(y_qa - yfqa)
-	h = abs(y_half - yfha)
-	b = abs(y_qb - yfqb)
+	_a = abs(y_qa - yfqa)
+	_h = abs(y_half - yfha)
+	_b = abs(y_qb - yfqb)
 	
-	average = (a + h + b) / 3
+	_average = (_a + _h + _b) / 3
+	
+	def normalize(left, mid, right, av):
+		
+		a = left / length
+		h = mid / length
+		b = right / length
+		average = av / length
+		
+		return a, h, b, average
+		
+	a, h, b, average = normalize(_a, _h, _b, _average)
 	
 	if average >= 100:
 		print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
 		
-	joint_space = {"quad_1" : a, "quad_2" : h, "quad_3" : b, "average": average}
+	joint_space = {"quad_1" : a, "quad_2" : h, "quad_3" : b, "average": average, "not_normal_q1-q3": [_a, _h, _b], "not_normal_average": _average, "xmax": length}
 
 	return joint_space
-	
-tibia = tibia_array(data)
-femur = femur_array(data)
 
-print(np.unique(tibia), np.unique(femur))
+#########################################################################################
 
-js = get_joint_space(femur, tibia)
-print(js)
+path = sys.argv[1]
+
+#get current date and time
+x = datetime.datetime.now()
+dateTimeStr = str(x)
+date = dateTimeStr[:10]
+time = dateTimeStr[11:-7]
+
+name = "joint_space_" + date + "_" + time + ".csv"
+fullname = path + name
+print("... Attempting to write", fullname)
+fname = path + "joint_space.txt"
+
+with open(fname, "r") as fd:
+	lines = fd.read().splitlines()
+
+col_list = ['file', 'quad_1', 'quad_2', 'quad_3', 'average', 'not_normal_q1-q3', 'not_normal_average', 'xmax']
+df = data_init(col_list)
+
+def runner(files, path, df):
+    
+    for f in files:
+        input = path + f
+        image = Image.open(input)
+        data = asarray(image)
+        
+        tibia = tibia_array(data)
+        femur = femur_array(data)
+        
+        js = get_joint_space(femur, tibia)
+        
+        image_name = {'file': f}
+        
+        j = {**image_name, **js}
+        
+        df = df.append(j, True)
+        
+    return df
+    
+data = runner(lines, path, df)
+data.to_csv(fullname, index=False)
+print(fullname, "successfully written")
