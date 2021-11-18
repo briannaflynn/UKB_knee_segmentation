@@ -225,7 +225,7 @@ def get_joint_space_10(femur, tibia):
 	
 	a = sum(norms[:3]) / 3
 	b = sum(norms[3:6]) / 3
-	c = sum(norms[3:6]) / 3
+	c = sum(norms[6:9]) / 3
 	
 	if _average >= 100:
 		print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
