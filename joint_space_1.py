@@ -250,6 +250,11 @@ def runner(files, path, df):
         
         js = get_joint_space_10(femur, tibia)
         
+        if js['average'] >= 100:
+        	f = "WARNING_" + f
+        else:
+        	pass
+        
         image_name = {'file': f}
         
         j = {**image_name, **js}
