@@ -210,7 +210,7 @@ def get_joint_space_10(femur, tibia):
 	b = sum(norms[3:6]) / 3
 	c = sum(norms[3:6]) / 3
 	
-	if average >= 100:
+	if _average >= 100:
 		print("\nWARNING: Need to supply femur, then tibia, or else calculations are off!\n")
 		
 	joint_space = {"quad_1" : norms[:3], "quad_1_av": a, "quad_2" : norms[3:6], "quad_2_av": b, "quad_3" : norms[6:9], "quad_3_av": c, "average": norms[-1], "not_normal_q1-q3": [_a, _a0, _a1, _h, _h0, _h1, _b, _b0, _b1], "not_normal_average": _average, "xmax": length}
