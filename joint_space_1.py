@@ -201,13 +201,13 @@ def get_joint_space_10(femur, tibia):
 	_h0 = abs(y_half_0 - yfha0)
 	_h1 = abs(y_half_1 - yfha1)
 	
+	_b = abs(y_qb - yfqb)
+	_b0 = abs(y_qb_0 - yfqb0)
+	
 	if yfqb1 != 0:
 		_b1 = abs(y_qb_1 - yfqb1)
 	else:
 		_b1 = _b + _b0 / 2
-	
-	_b = abs(y_qb - yfqb)
-	_b0 = abs(y_qb_0 - yfqb0)
 
 	_average = (_a + _a0 + _a1 + _h + _h0 + _h1 + _b + _b0 + _b1) / 9
 	
