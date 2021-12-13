@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/scratch1/05515/bflynn/UKB_knee_segmentation/joint_space_1.py", line 261, in <module>
+    data = runner(lines, path, df)
+  File "/scratch1/05515/bflynn/UKB_knee_segmentation/joint_space_1.py", line 251, in runner
+    js = get_joint_space_10(femur, tibia)
+  File "/scratch1/05515/bflynn/UKB_knee_segmentation/joint_space_1.py", line 181, in get_joint_space_10
+    yfqb1 = y[quad_b_1][-1]
+IndexError: index -1 is out of bounds for axis 0 with size 0

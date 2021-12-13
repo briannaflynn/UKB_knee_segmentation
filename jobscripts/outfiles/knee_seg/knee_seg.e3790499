@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/scratch1/05515/bflynn/UKB_knee_segmentation/joint_space.py", line 148, in <module>
+    with open(fname, "r") as fd:
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch1/05515/bflynn/knee/right_knee/predictions_right_knee/joint_space.txt'
