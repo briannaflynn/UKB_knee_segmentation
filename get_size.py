@@ -26,6 +26,7 @@ with open(fname, "r") as fd:
 def get_size(init_df, im_path_list):
 
   for i in im_path_list:
+  
   	k = path + i
     print(k)
     img = Image.open(k)
