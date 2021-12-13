@@ -13,7 +13,7 @@ dateTimeStr = str(x)
 date = dateTimeStr[:10]
 time = dateTimeStr[11:-7]
 
-name = "coordinates_" + date + "_" + time + ".csv"
+name = "imsize_" + date + "_" + time + ".csv"
 fullname = path + name
 print("... Attempting to write", fullname)
 fname = path + "joint_space.txt"
