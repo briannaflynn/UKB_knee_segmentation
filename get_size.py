@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import PIL
+from PIL import Image
 import cv2 as cv
 import pandas as pd
 import numpy as np
@@ -27,7 +27,7 @@ def get_size(init_df, im_path_list):
 
   for i in im_path_list:
     print(i)
-    img = PIL.Image.open(i)
+    img = Image.open(i)
     j = {'file': i, 'x': img.size[0], 'y': img.size[1]}
     assert [i for i in j.keys()] == [i for i in init_df.columns], "Init dataframe columns must match dictionary keys: file, x and y"
     init_df = init_df.append(j, ignore_index=True)
