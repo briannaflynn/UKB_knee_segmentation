@@ -27,8 +27,7 @@ def get_size(init_df, im_path_list):
 
   for i in im_path_list:
   
-  	k = path + i
-    print(k)
+    k = path + i; print(k)
     img = Image.open(k)
     j = {'file': i, 'x': img.size[0], 'y': img.size[1]}
     assert [i for i in j.keys()] == [i for i in init_df.columns], "Init dataframe columns must match dictionary keys: file, x and y"
