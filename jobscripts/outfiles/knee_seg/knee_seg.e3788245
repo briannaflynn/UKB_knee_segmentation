@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/scratch1/05515/bflynn/UKB_knee_segmentation/joint_space.py", line 174, in <module>
+    data = runner(lines, path, df)
+  File "/scratch1/05515/bflynn/UKB_knee_segmentation/joint_space.py", line 158, in runner
+    image = Image.open(input)
+  File "/work2/05515/bflynn/maverick2/software/anaconda3/lib/python3.7/site-packages/PIL/Image.py", line 2809, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch1/05515/bflynn/knee/left_knee/predictions_left_knee/1.2.840.113619.2.110.212174.20181008170729.1.6.12.1_prediction.png'
