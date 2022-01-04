@@ -7,13 +7,27 @@ import argparse
 import time
 import logging
 import logging.config
-#logging.config.fileConfig('logging.conf')
-#logger = logging.getLogger('main')
+logger = logging.getLogger('main')
+import datetime
 
+#get current date and time
+dateTime = datetime.datetime.now()
+dateTimeStr = str(dateTime)
+date = dateTimeStr[:10]
+time = dateTimeStr[11:-7]
+dt = date + "_" + time + ".log"
+
+def run(a: list):
+    args = None
+    for j in a:
+        args = ' '.join(a)
+
+    return subprocess.run(args, shell=True, stdout=subprocess.PIPE)
+    
 def js(*args):
     b = os.path.abspath('joint_space.py')
     trun = 'python ' + b
-    cmd = [trun] + [*args]
+    cmd = [trun] + [*args] + ['> ./logfiles/js_' + dt]
 
     try:
         process = run(cmd)
@@ -36,7 +50,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     path = args.path
-    input_filename = args.input
+    input_filename = args.input_filename
     choice = args.measure
     
     if choice == "jointspace":
