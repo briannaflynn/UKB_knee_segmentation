@@ -25,5 +25,5 @@ Required arguments:
 
 ```
 
-![image](Figures/knee_seg.png)
+![image](figures/knee_seg.png)
 
