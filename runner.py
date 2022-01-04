@@ -30,6 +30,8 @@ if __name__ == "__main__":
                         help='Path to directory with input files')
     parser.add_argument('--input_filename', action='store', type=str, required = True,
                         help='Path to text file containing list of files from the input directory for processing')
+    parser.add_argument('--measure', action = 'store', type = str, required = True, 
+    					help = 'What measurement to run - choices include: jointspace, displacement, or tibiofemoral. See README for details.')
 
     args = parser.parse_args()
     
