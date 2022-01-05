@@ -43,7 +43,7 @@ def get_displacement(femur, tibia):
 	
 	norms = normalize(linear_dist, euchlidian_dist, l = length)
 	
-	distances = {'linear_distance': norms[0], 'euchlidian_distance': norms[1]}
+	distances = {'linear_distance': norms[0], 'euchlidian_distance': norms[1], 'not_normal_linear': linear_dist, 'not_normal_euclidian', euchlidian_dist}
 	
 	return distances
 	
@@ -67,7 +67,7 @@ fname = path + sys.argv[2]
 with open(fname, "r") as fd:
 	lines = fd.read().splitlines()
 	
-col_list = ['file', 'linear_distance', 'euchlidian_distance']
+col_list = ['file', 'linear_distance', 'euchlidian_distance', 'not_normal_linear', 'not_normal_euclidian']
 df = data_init(col_list)
 
 def runner(files, path, df):
