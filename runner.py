@@ -35,6 +35,21 @@ def js(*args):
         logger.error(f"Joint space crashed, here is stderr: {process.stderr}")
         raise
     return process.stdout
+    
+def ds(*args):
+    b = os.path.abspath('displacement.py')
+    trun = 'python ' + b
+    cmd = [trun] + [*args] + ['> ./logfiles/displacement_' + dt]
+
+    try:
+        process = run(cmd)
+    except subprocess.CalledProcessError:
+        logger.error(f"Displacement crashed, here is stderr: {process.stderr}")
+        raise
+    return process.stdout
+
+
+
 
 ##############################################################
 
