@@ -25,7 +25,7 @@ def run(a: list):
     return subprocess.run(args, shell=True, stdout=subprocess.PIPE)
     
 def js(*args):
-    b = os.path.abspath('joint_space.py')
+    b = os.path.abspath('./scripts/joint_space.py')
     trun = 'python ' + b
     cmd = [trun] + [*args] + ['> ./logfiles/js_' + dt]
 
@@ -37,7 +37,7 @@ def js(*args):
     return process.stdout
     
 def ds(*args):
-    b = os.path.abspath('displacement.py')
+    b = os.path.abspath('./scripts/displacement.py')
     trun = 'python ' + b
     cmd = [trun] + [*args] + ['> ./logfiles/displacement_' + dt]
 

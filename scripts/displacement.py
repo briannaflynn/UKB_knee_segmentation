@@ -43,7 +43,7 @@ def get_displacement(femur, tibia):
 	
 	norms = normalize(linear_dist, euclidian_dist, l = length)
 	
-	distances = {'linear_distance': norms[0], 'euclidian_distance': norms[1], 'not_normal_linear': linear_dist, 'not_normal_euclidian', euclidian_dist}
+	distances = {'linear_distance': norms[0], 'euclidian_distance': norms[1], 'not_normal_linear': linear_dist, 'not_normal_euclidian': euclidian_dist}
 	
 	return distances
 	
