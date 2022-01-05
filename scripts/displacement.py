@@ -39,11 +39,11 @@ def get_displacement(femur, tibia):
 	linear_dist = abs(fx - tx)
 	tib = np.array((tx, ty))
 	fem = np.array((fx, fy))
-	euchlidian_dist = np.linalg.norm(tib - fem)
+	euclidian_dist = np.linalg.norm(tib - fem)
 	
-	norms = normalize(linear_dist, euchlidian_dist, l = length)
+	norms = normalize(linear_dist, euclidian_dist, l = length)
 	
-	distances = {'linear_distance': norms[0], 'euchlidian_distance': norms[1], 'not_normal_linear': linear_dist, 'not_normal_euclidian', euchlidian_dist}
+	distances = {'linear_distance': norms[0], 'euclidian_distance': norms[1], 'not_normal_linear': linear_dist, 'not_normal_euclidian', euclidian_dist}
 	
 	return distances
 	
@@ -67,7 +67,7 @@ fname = path + sys.argv[2]
 with open(fname, "r") as fd:
 	lines = fd.read().splitlines()
 	
-col_list = ['file', 'linear_distance', 'euchlidian_distance', 'not_normal_linear', 'not_normal_euclidian']
+col_list = ['file', 'linear_distance', 'euclidian_distance', 'not_normal_linear', 'not_normal_euclidian']
 df = data_init(col_list)
 
 def runner(files, path, df):
@@ -84,7 +84,7 @@ def runner(files, path, df):
         
         if ds['linear_distance'] >= 100:
         	f = "WARNING_" + f
-        elif ds['euchlidian_distance'] >= 100:
+        elif ds['euclidian_distance'] >= 100:
         	f = "WARNING_" + f
         else:
         	pass
@@ -100,9 +100,4 @@ def runner(files, path, df):
 data = runner(lines, path, df)
 data.to_csv(fullname, index=False)
 print("\n", fullname, "successfully written")
-
-	
-	
-	
-
 	
