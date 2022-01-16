@@ -7,9 +7,14 @@ import sys
 
 pth = sys.argv[1] # path to imsize.csv input files
 orient = sys.argv[2] # right, left or both
-pct = bool(sys.argv[3]) #True or False
+pct = sys.argv[3] #True or False if want to filter by 25th and 75th z-score percentiles
 z_score = int(sys.argv[4]) # z_score i.e. 1, 2 or 3
-#params = str(pct) + "_" + str(z_score)
+
+if pct == "False":
+	params = "_z" + str(z_score)
+elif pct == "True":
+	params = "_percentile"
+
 l = pd.read_csv(abspath(pth + "left_imsize.csv"))
 r = pd.read_csv(abspath(pth + "right_imsize.csv"))
 
@@ -25,7 +30,7 @@ def filter_x(data, percent = 0.01):
 
     return filtered_df
 
-def filter_z(data, xval:int, percentiles = False, z_score = 3):
+def filter_z(data, xval:int, percentiles = "False", z_score = 3):
 
     def _z_score(y, mean, std):
         z = (y - mean) / std
@@ -42,7 +47,7 @@ def filter_z(data, xval:int, percentiles = False, z_score = 3):
 
     summary = data['y_z_score'].describe().to_list()
   
-    if percentiles == True:
+    if percentiles == "True":
         filtered_df = data[(data['y_z_score'] >= summary[4]) & (data['y_z_score'] <= summary[6])]
     else:
         neg_z_score = -1 * z_score
@@ -79,7 +84,7 @@ elif orient == "both":
     left_fltr = _filter_all(l, pct, z_score)
     filtered_dataframe = pd.concat([right_fltr, left_fltr])
 
-outname = pth + orient + "_imsize_filtered.csv"
+outname = pth + orient + params + "_imsize_filtered.csv"
 print("Writing", outname)
 filtered_dataframe.to_csv(outname, index = False)
 
