@@ -43,7 +43,7 @@ for file in [type+z for z in files]:
     	outfile = type+"/stacked_inst_" + file
     	df.to_csv(outfile, index=False)
     else:
-    	outfile = type+"/long_inst_" + file
+    	outfile = type+"/inst_" + file
     	d = parse_inst(df)
     	d.to_csv(outfile, index=False)
     
