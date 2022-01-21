@@ -4,6 +4,7 @@ import pandas as pd
 import sys
 
 type = sys.argv[1]
+data_layout = sys.argv[2] # OPTIONS: stacked or long. Stacked means instance is represented in one column. Long means every variable is renamed based on the instance it belongs to. 
 ifile = '_i2i3_filter.csv'
 
 files = ['_joint_space.csv','_joint_space_zero_norm_by_height.csv','_joint_space_norm_by_height.csv','_joint_space_norm_by_ft_average.csv']
@@ -34,15 +35,16 @@ for file in [type+z for z in files]:
     df['file'] = df['file'].str.replace("_prediction.png", ".jpg")
     
     if file == type + "_joint_space.csv":
-    	data = df.merge(inst, on = "file")
+    	df = df.merge(inst, on = "file")
     else:
-    	data = df.merge(inst, on = ["file", "eid"])
+    	df = df.merge(inst, on = ["file", "eid"])
 
-    df = parse_inst(data)
-    print(df)
+    if data_layout == "stacked":
+    	outfile = type+"/stacked_inst_" + file
+    	df.to_csv(outfile, index=False)
+    else:
+    	outfile = type+"/long_inst_" + file
+    	d = parse_inst(df)
+    	d.to_csv(outfile, index=False)
     
-    outfile = type+'/inst_'+file
-    print(outfile)
-    data.to_csv(outfile, index=False)
-
 
