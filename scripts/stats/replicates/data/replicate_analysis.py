@@ -5,6 +5,7 @@ import pandas as pd
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy.stats import ttest_rel
 
 def ts_independent(vec_1, vec_2):
     var1 = np.var(vec_1)
@@ -23,7 +24,7 @@ def get_corr(vec_1, vec_2):
 
     return {"corr-coefficient": round(coeff, 4), "p-value": round(pval, 4)}
 
-def run_stats(data, label, orientation):
+def run_stats(data, label, orientation, paired = False):
     a_var = label + "_2"
     b_var = label + "_3"
 
@@ -32,11 +33,14 @@ def run_stats(data, label, orientation):
     
     t = ts_independent(A,B)
     p = get_corr(A,B)
-
+    
+    if paired == True:
+    	t = ttest_rel(A, B)
+    	
     data = {'Two-Samp_T-Test': t, 'Pearson_Correlation':p}
     dataframe = pd.DataFrame(data)
     print(dataframe)
-    dataframe.to_csv("./results/" + orientation + "/stats_" + label + ".csv", index = False)
+    dataframe.to_csv("./results/" + orientation + "/stats_" + label + ".csv")
     return data, A, B
 
 def plot_stats(data_dict, orientation, label, vec1, vec2):
