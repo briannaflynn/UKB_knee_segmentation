@@ -18,5 +18,6 @@ i = i2.merge(i3, on = "eid")
 df = inst[['file', 'eid']].merge(i, on = "eid")
 
 data = df[['file']].merge(inst, on = "file")
+data = data.drop_duplicates(subset=["file"])
 print(data)
 data.to_csv(outname, index = False)
