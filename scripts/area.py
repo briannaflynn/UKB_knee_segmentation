@@ -135,7 +135,7 @@ fname = path + sys.argv[2]
 with open(fname, "r") as fd:
 	lines = fd.read().splitlines()
 
-col_list = ['quad_1_area', 'quad_2_area', 'quad_3_area', "quad_all_area", "quad_1_area_norm", "quad_2_area_norm", "quad_3_area_norm", "quad_all_area_norm", "femur_area", "tibia_area", "all_area_average", "all_area", "length", "xmax"]
+col_list = ['file', 'quad_1_area', 'quad_2_area', 'quad_3_area', "quad_all_area", "quad_1_area_norm", "quad_2_area_norm", "quad_3_area_norm", "quad_all_area_norm", "femur_area", "tibia_area", "all_area_average", "all_area", "length", "xmax"]
 	
 df = data_init(col_list)
 
@@ -149,10 +149,8 @@ def runner(files, path, df):
         tibia = tibia_array(data)
         femur = femur_array(data)
         
-    	tibia_area = area(tibia)
-    	femur_area = area(femur)
-    	areas = [tibia_area, femur_area]
-        
+        areas = get_joint_area(femur, tibia)
+                
         image_name = {'file': f}
         
         j = {**image_name, **areas}
@@ -163,5 +161,5 @@ def runner(files, path, df):
     
 data = runner(lines, path, df)
 print(data)
-# data.to_csv(fullname, index=False)
+data.to_csv(fullname, index=False)
 print("\n", fullname, "successfully written")
