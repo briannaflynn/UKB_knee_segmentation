@@ -17,6 +17,7 @@ orientation = sys.argv[2]
 type = sys.argv[3]
 column = sys.argv[4]
 ratio = sys.argv[5]
+
 outname = fname[:-7] + type + "norm_by_height.csv"
 if type == "zero":
 	outname = fname[:-7] + type + "_norm_by_height.csv"
@@ -80,9 +81,6 @@ def multiply_by_betas(df, col_list):
 def multiply_by_ratio(data, col_list):
 
 	betas = data['beta'].to_list()
-	
-	data_A = data.loc[~data['xy_group'].str.startswith("B"), ]
-	data_B = data.loc[data['xy_group'].str.startswith("B"), ]
 	
 	if orientation == "right":
 		data_A = data.loc[~data['xy_group'].str.startswith("B"), ]
