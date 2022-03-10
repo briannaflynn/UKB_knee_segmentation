@@ -65,14 +65,17 @@ def get_polygon_range(img_data, scale_val = 5):
 	
 	j = x[u]
 	print(j.size, j)
+	
+	if j.size == 0:
+		mid_2 = None
 	j_idx = len(j) // 2
 	mid_2 = j[j_idx]
 	
 	return mid_1, w, mid_2, u
 
-def get_vector_line(img_data):
+def get_vector_line(img_data, x1, y1, x2, y2):
     
-    x1, y1, x2, y2 = get_polygon_range(img_data)
+    #x1, y1, x2, y2 = get_polygon_range(img_data)
 
     l = LinAlger(x1, y1, x2, y2)
     vector = l.vector
@@ -141,27 +144,35 @@ def runner(files, path, df):
         tibia = tibia_array(data)
         femur = femur_array(data)
         
-        x, y, xv, yv = get_vector_line(femur)
-        x1, y1, xv1, yv1 = get_vector_line(tibia)
+        fx1, fy1, fx2, fy2 = get_polygon_range(femur)
+        tx1, ty1, tx2, ty2 = get_polygon_range(tibia)
         
-        fem = LinAlger(x, y, xv, yv)
-        tib = LinAlger(x1, y1, xv1, yv1)
+        if None in [fx1, fy1, fx2, fy2, tx1, ty1, tx2, ty2]:
+        	ang = None
         
-        fem_vec = fem.vector
-        tib_vec = tib.vector
-        
-        ang = LinAlger.get_angle(tib_vec, fem_vec)
-        ang = 180 - round(ang[1], 2)
-        fx = get_disp_xval(femur)
-        tx = get_disp_xval(tibia, femur=False)
-        disp = get_displacement(fx, tx)
-        
+        else:
+        	x, y, xv, yv = get_vector_line(femur, fx1, fy1, fx2, fy2)
+        	x1, y1, xv1, yv1 = get_vector_line(tibia, tx1, ty1, tx2, ty2)
+        	fem = LinAlger(x, y, xv, yv); tib = LinAlger(x1, y1, xv1, yv1)
+        	
+        	fem_vec = fem.vector; tib_vec = tib.vector
+        	
+        	ang = LinAlger.get_angle(tib_vec, fem_vec)
+        	ang = 180 - round(ang[1], 2)
+        	
+        if None in [fx2, tx1]:
+        	disp = None
+        else:
+        	fx = get_disp_xval(femur)
+        	tx = get_disp_xval(tibia, femur = False)
+        	disp = get_displacement(fx, tx)
+        	        
         vals = {'ft_angle':ang, 'displacement': disp}
                 
         image_name = {'file': f}
         
         j = {**image_name, **vals}
-        
+        print(j)
         df = df.append(j, True)
         
     return df
