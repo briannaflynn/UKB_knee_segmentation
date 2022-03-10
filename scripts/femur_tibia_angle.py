@@ -65,10 +65,8 @@ def get_polygon_range(img_data, scale_val = 5):
 	return mid_1, w, mid_2, u
 
 def get_vector_line(img_data):
+    #x1, y1, x2, y2 = get_polygon_range(img_data)
     x1, y1, x2, y2 = get_polygon_range(img_data)
-    x1, y1, x2, y2 = get_polygon_range(img_data)
-    # print(x1, x2)
-    # print(y1, y2)
 
     l = LinAlger(x1, y1, x2, y2)
     vector = l.vector
@@ -83,6 +81,23 @@ def get_vector_line(img_data):
     x2_ = x2 + (xvar*xd)
     y2_ = y2 + (yvar*yd)
     return x1_, y1_, x2_, y2_
+    
+def get_disp_xval(img_data, femur = True):
+	
+	xval = None
+	top_x, top_y, bottom_x, bottom_y = get_polygon_range(img_data)
+	if femur == True:
+		xval = bottom_x
+	elif femur == False:
+		xval = top_x
+	
+	return xval
+
+get_displacement(xval_1, xval_2):
+	
+	displacement = abs(xval_1 - xval_2)
+	
+	return displacement		
 
 # load the image
 image = Image.open("../data/predictions/1.2.840.113619.2.110.210419.20150911150314.1.9.12.1_prediction.png")
@@ -102,19 +117,56 @@ tib_vec = tib.vector
 
 ang = LinAlger.get_angle(tib_vec, fem_vec)
 
-print("The tibiofemoral angle is", 180 - round(ang[1]), "degrees" )
+print("The tibiofemoral angle is", 180 - round(ang[1], 2), "degrees" )
 
-data = asarray(image)
 
-d = np.where(data == 0, data, 255)
+# (Taken from area)
+##########################################################################################
 
-image = d
-line_thickness = 2
-cv2.line(image, (x, y), (xv, yv), (75, 0, 0), thickness=line_thickness)
-cv2.line(image, (x1, y1), (xv1, yv1), (0, 0, 255), thickness=line_thickness)
-# cv2.line(image, (439, 643), (441, 878), (0, 0, 255), thickness=line_thickness)
-# cv2.circle(image, (439,643), radius=10, color=(0, 0, 255), thickness=2)
-# cv2.circle(image, (441,878), radius=10, color=(0, 0, 255), thickness=2)
-cv2.imshow(image)
-#cv2.imwrite("test.png", image)
+path = sys.argv[1]
+path = str(os.path.abspath(path)) + "/"
 
+#get current date and time
+x = datetime.datetime.now()
+dateTimeStr = str(x)
+date = dateTimeStr[:10]
+time = dateTimeStr[11:-7]
+
+name = "ftangle_" + date + "_" + time + ".csv"
+fullname = path + name
+print("... Attempting to write", fullname, "\n")
+
+# textfile with list of names of files 
+fname = path + sys.argv[2]
+
+with open(fname, "r") as fd:
+	lines = fd.read().splitlines()
+
+col_list = ['file', 'ft_angle', 'displacement']
+
+df = data_init(col_list)
+
+def runner(files, path, df):
+    
+    for f in files:
+        input = path + f; print(input)
+        image = Image.open(input)
+        data = asarray(image)
+        
+        tibia = tibia_array(data)
+        femur = femur_array(data)
+        
+        areas = get_joint_area(femur, tibia)
+                
+        image_name = {'file': f}
+        
+        j = {**image_name, **areas}
+        
+        df = df.append(j, True)
+        
+    return df
+    
+data = runner(lines, path, df)
+print(data)
+data.to_csv(fullname, index=False)
+print("\n", fullname, "successfully written")
