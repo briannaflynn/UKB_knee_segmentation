@@ -53,9 +53,11 @@ def get_polygon_range(img_data, scale_val = 5):
 	
 	u = bottom - height // scale_val
 	w = top + height // scale_val
-	
+	print(u,w)
 	t = x[w]
+	print(t)
 	t_idx = len(t) // 2
+	print(t_idx)
 	mid_1 = t[t_idx]
 	
 	j = x[u]
@@ -86,7 +88,7 @@ def get_disp_xval(img_data, femur = True):
 	
 	xval = None
 	top_x, top_y, bottom_x, bottom_y = get_polygon_range(img_data)
-	print(femur, top_x, top_y, bottom_x, bottom_y)
+	
 	if femur == True:
 		xval = bottom_x
 	elif femur == False:
