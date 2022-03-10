@@ -64,6 +64,7 @@ def get_polygon_range(img_data, scale_val = 5):
 		mid_1 = t[t_idx]
 	
 	j = x[u]
+	print(j.size, j)
 	j_idx = len(j) // 2
 	mid_2 = j[j_idx]
 	
