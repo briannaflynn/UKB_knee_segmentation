@@ -65,7 +65,7 @@ def get_polygon_range(img_data, scale_val = 5):
 	return mid_1, w, mid_2, u
 
 def get_vector_line(img_data):
-    #x1, y1, x2, y2 = get_polygon_range(img_data)
+    
     x1, y1, x2, y2 = get_polygon_range(img_data)
 
     l = LinAlger(x1, y1, x2, y2)
@@ -100,33 +100,6 @@ def get_displacement(xval_1, xval_2):
 	
 	return displacement		
 
-# load the image
-# image = Image.open("../data/predictions/1.2.840.113619.2.110.210419.20150911150314.1.9.12.1_prediction.png")
-# convert image to numpy array
-# femur = femur_array(asarray(image))
-# tibia = tibia_array(asarray(image))
-# 
-# get_polygon_range(femur)
-# x, y, xv, yv = get_vector_line(femur)
-# x1, y1, xv1, yv1 = get_vector_line(tibia)
-# 
-# fem = LinAlger(x, y, xv, yv)
-# tib = LinAlger(x1, y1, xv1, yv1)
-# 
-# fem_vec = fem.vector
-# tib_vec = tib.vector
-# 
-# ang = LinAlger.get_angle(tib_vec, fem_vec)
-# 
-# print("The tibiofemoral angle is", 180 - round(ang[1], 2), "degrees" )
-# 
-# fx = get_disp_xval(femur)
-# tx = get_disp_xval(tibia, femur = False)
-# disp = get_displacement(fx, tx)
-# print("femur x:", fx, "tibia x:", tx, "displacement:", disp)
-
-
-# (Taken from area)
 ##########################################################################################
 
 path = sys.argv[1]
@@ -138,7 +111,7 @@ dateTimeStr = str(x)
 date = dateTimeStr[:10]
 time = dateTimeStr[11:-7]
 
-name = "ftangle_" + date + "_" + time + ".csv"
+name = "ftangle_disp_" + date + "_" + time + ".csv"
 fullname = path + name
 print("... Attempting to write", fullname, "\n")
 
@@ -189,5 +162,5 @@ def runner(files, path, df):
     
 data = runner(lines, path, df)
 print(data)
-#data.to_csv(fullname, index=False)
-#print("\n", fullname, "successfully written")
+data.to_csv(fullname, index=False)
+print("\n", fullname, "successfully written")
