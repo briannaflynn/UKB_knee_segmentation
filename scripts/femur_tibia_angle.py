@@ -53,23 +53,22 @@ def get_polygon_range(img_data, scale_val = 5):
 	
 	u = bottom - height // scale_val
 	w = top + height // scale_val
-	print(u,w)
+	
 	t = x[w]
-	print(t)
 	t_idx = len(t) // 2
-	print(t_idx)
+	
 	if t.size == 0:
 		mid_1 = None
 	else:
 		mid_1 = t[t_idx]
 	
 	j = x[u]
-	print(j.size, j)
+	j_idx = len(j) // 2
 	
 	if j.size == 0:
 		mid_2 = None
-	j_idx = len(j) // 2
-	mid_2 = j[j_idx]
+	else:
+		mid_2 = j[j_idx]
 	
 	return mid_1, w, mid_2, u
 
