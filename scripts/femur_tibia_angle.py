@@ -86,6 +86,7 @@ def get_disp_xval(img_data, femur = True):
 	
 	xval = None
 	top_x, top_y, bottom_x, bottom_y = get_polygon_range(img_data)
+	print(femur, top_x, top_y, bottom_x, bottom_y)
 	if femur == True:
 		xval = bottom_x
 	elif femur == False:
@@ -93,31 +94,36 @@ def get_disp_xval(img_data, femur = True):
 	
 	return xval
 
-get_displacement(xval_1, xval_2):
+def get_displacement(xval_1, xval_2):
 	
 	displacement = abs(xval_1 - xval_2)
 	
 	return displacement		
 
 # load the image
-image = Image.open("../data/predictions/1.2.840.113619.2.110.210419.20150911150314.1.9.12.1_prediction.png")
+# image = Image.open("../data/predictions/1.2.840.113619.2.110.210419.20150911150314.1.9.12.1_prediction.png")
 # convert image to numpy array
-femur = femur_array(asarray(image))
-tibia = tibia_array(asarray(image))
-
-#get_polygon_range(femur)
-x, y, xv, yv = get_vector_line(femur)
-x1, y1, xv1, yv1 = get_vector_line(tibia)
-
-fem = LinAlger(x, y, xv, yv)
-tib = LinAlger(x1, y1, xv1, yv1)
-
-fem_vec = fem.vector
-tib_vec = tib.vector
-
-ang = LinAlger.get_angle(tib_vec, fem_vec)
-
-print("The tibiofemoral angle is", 180 - round(ang[1], 2), "degrees" )
+# femur = femur_array(asarray(image))
+# tibia = tibia_array(asarray(image))
+# 
+# get_polygon_range(femur)
+# x, y, xv, yv = get_vector_line(femur)
+# x1, y1, xv1, yv1 = get_vector_line(tibia)
+# 
+# fem = LinAlger(x, y, xv, yv)
+# tib = LinAlger(x1, y1, xv1, yv1)
+# 
+# fem_vec = fem.vector
+# tib_vec = tib.vector
+# 
+# ang = LinAlger.get_angle(tib_vec, fem_vec)
+# 
+# print("The tibiofemoral angle is", 180 - round(ang[1], 2), "degrees" )
+# 
+# fx = get_disp_xval(femur)
+# tx = get_disp_xval(tibia, femur = False)
+# disp = get_displacement(fx, tx)
+# print("femur x:", fx, "tibia x:", tx, "displacement:", disp)
 
 
 # (Taken from area)
@@ -156,11 +162,26 @@ def runner(files, path, df):
         tibia = tibia_array(data)
         femur = femur_array(data)
         
-        areas = get_joint_area(femur, tibia)
+        x, y, xv, yv = get_vector_line(femur)
+        x1, y1, xv1, yv1 = get_vector_line(tibia)
+        
+        fem = LinAlger(x, y, xv, yv)
+        tib = LinAlger(x1, y1, xv1, yv1)
+        
+        fem_vec = fem.vector
+        tib_vec = tib.vector
+        
+        ang = LinAlger.get_angle(tib_vec, fem_vec)
+        ang = 180 - round(ang[1], 2)
+        fx = get_disp_xval(femur)
+        tx = get_disp_xval(tibia, femur=False)
+        disp = get_displacement(fx, tx)
+        
+        vals = {'ft_angle':ang, 'displacement': disp}
                 
         image_name = {'file': f}
         
-        j = {**image_name, **areas}
+        j = {**image_name, **vals}
         
         df = df.append(j, True)
         
@@ -168,5 +189,5 @@ def runner(files, path, df):
     
 data = runner(lines, path, df)
 print(data)
-data.to_csv(fullname, index=False)
-print("\n", fullname, "successfully written")
+#data.to_csv(fullname, index=False)
+#print("\n", fullname, "successfully written")
