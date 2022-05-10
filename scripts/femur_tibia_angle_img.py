@@ -23,15 +23,11 @@ class LinAlger:
   
   def get_angle(vector_1, vector_2):
 
-    unit_1 = vector_1 / np.linalg.norm(vector_1)
-    unit_2 = vector_2 / np.linalg.norm(vector_2)
-
-    dot = np.dot(unit_1, unit_2)
-    angle = np.arccos(dot)
-
-    degrees = np.rad2deg(angle)
-
-    return angle, degrees
+    ang1 = np.arctan2(*vector_1)
+    ang2 = np.arctan2(*vector_2)
+    ang = np.rad2deg(ang1-ang2) + 180
+    
+    return ang
     
 def get_polygon_range(img_data, scale_val = 5):
 	def value_max_width_len(values):
@@ -166,7 +162,8 @@ def runner(files, path, df):
         	fem_vec = fem.vector; tib_vec = tib.vector
         	
         	ang = LinAlger.get_angle(tib_vec, fem_vec)
-        	ang = 180 - round(ang[1], 2)
+        	ang = round(ang,2)
+        	#ang = 180 - round(ang, 2)
         	
         	if fx > tx:
         		fx2n = fx2 - disp

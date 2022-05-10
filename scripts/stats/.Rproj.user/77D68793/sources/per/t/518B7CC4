@@ -1,0 +1,25 @@
+{
+    "id": "518B7CC4",
+    "path": "~/Desktop/UKB/UKB_knee_segmentation/scripts/stats/lm.R",
+    "project_path": "lm.R",
+    "type": "r_source",
+    "hash": "151718199",
+    "contents": "",
+    "dirty": false,
+    "created": 1643861818565.0,
+    "source_on_save": false,
+    "relative_order": 10,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "267,13",
+        "scrollLine": "239"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1644340418,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1644340418518,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,25 @@
+{
+    "id": "2326A8F3",
+    "path": "~/Desktop/UKB/UKB_knee_segmentation/scripts/stats/regr.R",
+    "project_path": "regr.R",
+    "type": "r_source",
+    "hash": "4012050641",
+    "contents": "",
+    "dirty": false,
+    "created": 1642436111996.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "151,24",
+        "scrollLine": "141"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1645472423,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1645472426880,
+    "read_only": false,
+    "read_only_alternatives": []
+}
