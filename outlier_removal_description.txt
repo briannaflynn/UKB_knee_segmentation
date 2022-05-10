@@ -1,0 +1,15 @@
+Outlier Removal Steps
+
+Filtered by:
+
+	* Removing participants who do not have White British Ancestry
+	* Removing widths (pixel lengths on x axis) whose sample size was under 1 percent of the total sample size. Example: 37000 individuals, remove images whose width at a particular value of x is below 370 participants.
+	* Removing Y values for each of the remaining values of X that fall outside of three standard deviations from the mean
+	* Removing outliers from the remaining participants by using an interquartile range cutoff. Lower-bound = quartile_1 - 1.5 * IQR, upper-bound = quartile_3 + 1.5 * IQR for all measurements (e.g. quad_1_av, quad_all_av ...)
+	
+Counts remaining after each step can be found in the following files:
+	* right_joint_space_1pct_x_z3_y_iqr_counts.csv
+	* left_joint_space_1pct_x_z3_y_iqr_counts.csv
+	
+Example images that were removed by outlier filtering steps can be found in this folder:
+	* Box: /Narasimhan Lab/UKB Imaging Genetics Analysis/outlier_analysis/example_outlier_images
