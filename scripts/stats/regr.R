@@ -119,8 +119,8 @@ autoregr_zero(data, g, "xy_groups")
 
 # write.csv(data, "both_joint_space_raw.csv", row.names = FALSE)
 
-right <- merge(right, rfta, by = "file")
-left <- merge(left, lfta, by = "file")
+# right <- merge(right, rfta, by = "file")
+# left <- merge(left, lfta, by = "file")
 
 r_groups <- read.csv('./replicates/data/right_xy_groups.csv')
 colnames(r_groups)[1] <- "file"
@@ -132,11 +132,13 @@ l_groups <- l_groups[, c("file", "xy_group")]
 right_groups <- merge(right, r_groups, by = "file")
 left_groups <- merge(left, l_groups, by = "file")
 
+
+
+right_groups <- read.csv('../../data/predictions/cleaned/right_joint_space_xygroup.csv')
+left_groups <- read.csv('../../data/predictions/cleaned/left_joint_space_xygroup.csv')
+
 ru <- unique(right_groups$xy_group)
 lu <- unique(left_groups$xy_group)
-
-right_groups
-left_groups
 
 autoregr_zero <- function(data, uniques, namestr) {
   

@@ -70,7 +70,8 @@ def multiply_by_betas(df, col_list):
 	
 		df[z] = df[z].astype(float)
 		name = z + "_norm"
-		df[name] = df[z] * df["beta"]
+		# changed to division
+		df[name] = df[z] / df["beta"]
 	
 	print(df)
 	return df
@@ -122,10 +123,11 @@ if ratio == "ratio":
 	outname = fname[:-4] + "_" + type + "_" + ratio + "_norm_by_DXA_area.csv"
 elif ratio == "betas" and column == "AB_groups":
 	betadata = multiply_by_betas(betadata, cols)
-	outname = fname[:-4] + "_" + type + "_norm_by_DXA_area.csv"
+	outname = fname[:-4] + "_" + type + "1.1_norm_by_DXA_area.csv"
 else:
 	betadata = multiply_by_betas(betadata, cols)
 
 print(outname)
+print(betadata.columns)
 betadata.to_csv(outname, index = False)
 	

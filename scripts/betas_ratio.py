@@ -20,7 +20,7 @@ ratio = sys.argv[5]
 
 outname = fname[:-7] + type + "norm_by_height.csv"
 if type == "zero":
-	outname = fname[:-7] + type + "1.2_norm_by_height.csv"
+	outname = fname[:-7] + type + "2_norm_by_height.csv"
 	
 data = pd.read_csv(fname)
 
@@ -143,7 +143,7 @@ betadata = get_betas(data, orientation, column)
 
 if ratio == "ratio":
 	betadata = multiply_by_ratio(betadata, cols)
-	outname = fname[:-7] + type + "_" + ratio + "1.2_norm_by_height.csv"
+	outname = fname[:-7] + type + "_" + ratio + "2_norm_by_height.csv"
 else:
 	betadata = multiply_by_betas(betadata, cols)
 
