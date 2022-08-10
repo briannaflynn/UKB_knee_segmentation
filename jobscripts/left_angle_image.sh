@@ -23,12 +23,16 @@
 #
 #----------------------------------------------------
 
-#SBATCH -J right           # Job name
-#SBATCH -o right.o%j       # Name of stdout output file
-#SBATCH -e right.e%j       # Name of stderr error file
+#SBATCH -J left           # Job name
+#SBATCH -o left.o%j       # Name of stdout output file
+#SBATCH -e left.e%j       # Name of stderr error file
 #SBATCH -p rtx          # Queue (partition) name
-#SBATCH -N 2               # Total # of nodes 
-#SBATCH -n 8              # Total # of mpi tasks
-#SBATCH -t 12:30:00        # Run time (hh:mm:ss)
+#SBATCH -N 1               # Total # of nodes 
+#SBATCH -n 1              # Total # of mpi tasks
+#SBATCH -t 18:30:00        # Run time (hh:mm:ss)
 
-python scripts/femur_tibia_angle.py /scratch1/05515/bflynn/knee/right_knee/predictions_right_knee/ joint_space.txt
+mkdir -p $SCRATCH/ANGLE_IMAGES/
+mkdir -p $SCRATCH/ANGLE_IMAGES/LEFT/
+python ../scripts/femur_tibia_angle_img.py $WORK2/knee_segmentation_predictions/left_knee_preds/ angle.txt
+cd $WORK2/knee_segmentation_predictions/left_knee_preds/
+mv *_angle.png $SCRATCH/ANGLE_IMAGES/LEFT/
