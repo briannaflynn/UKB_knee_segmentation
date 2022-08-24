@@ -132,6 +132,18 @@ def runner(path, files, size_df):
 	results = compute_statistics(data)
 	results = compute_statistics(results, bone = 'tibia')
 	
+	def compute_statistics_per_x(data, x):
+		
+		df = data.loc[data['x'] == x]
+		results = compute_statistics(df)
+		results = compute_statistics(results, bone = 'tibia')
+		results.to_csv(path + 'seg_mask_qc_'+str(x)+'.csv', index = False)
+		
+		return results
+	
+	for xi in data['x'].unique():	
+		compute_statistics_per_x(data, xi)
+
 	return results
 
 # GIVE FILE AS PNG 
