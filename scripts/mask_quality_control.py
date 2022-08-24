@@ -16,8 +16,13 @@ files = []
 for file in os.listdir(pth):
     if file.endswith("_prediction.png"):
     	files.append(file)
-    	
+	
 size_df = pd.read_csv(size)
+dir_files = pd.DataFrame()
+dir_files['file'] = files
+files = size_df.merge(dir_files, on = 'file', how = 'inner')['file'].to_list()
+print(files)
+
 path = pth
 
 def get_area_for_resolution(path, file, size_df):
