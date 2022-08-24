@@ -135,6 +135,7 @@ def runner(path, files, size_df):
 	def compute_statistics_per_x(data, x):
 		
 		df = data.loc[data['x'] == x]
+		x = int(x)
 		results = compute_statistics(df)
 		results = compute_statistics(results, bone = 'tibia')
 		results.to_csv(path + 'seg_mask_qc_'+str(x)+'.csv', index = False)
