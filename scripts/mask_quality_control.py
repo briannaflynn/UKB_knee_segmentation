@@ -19,7 +19,6 @@ for file in os.listdir(pth):
     	
 size_df = pd.read_csv(size)
 path = pth
-print(files)
 
 def get_area_for_resolution(path, file, size_df):
 	
@@ -89,7 +88,6 @@ def compute_statistics(data, bone='femur'):
 		rows = abs(row_count - len(summary))
 		fill = [None] * rows
 		
-		#summary = [1, 2, 3, 4, 5, 6, 7, 8]
 		summary = summary + fill
 		
 		data[pname] = summary
@@ -116,9 +114,9 @@ def runner(path, files, size_df):
 			dict[key].append(value)
 			
 		return dict
-		
+	
 	for f in files:
-		print(f)
+		
 		data = get_area_for_resolution(path, f, size_df)
 		for k, v in data.items():
 			data = append_data(data_init, k, v)
@@ -128,8 +126,9 @@ def runner(path, files, size_df):
 	
 	results = compute_statistics(data)
 	results = compute_statistics(results, bone = 'tibia')
-	print(results.columns)
+	
 	return results
 
 # GIVE FILE AS PNG 
-print(runner(path, files, size_df))
+quality_check = runner(path, files, size_df)
+quality_check.to_csv(pth + "seg_mask_qc.csv", index = False)
