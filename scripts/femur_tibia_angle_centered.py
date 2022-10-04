@@ -438,7 +438,7 @@ x = datetime.datetime.now()
 dateTimeStr = str(x)
 date = dateTimeStr[:10]
 time = dateTimeStr[11:-7]
-path = "/content/"
+
 name = "tibiofemoral_angle_center_axis_" + date + "_" + time + ".csv"
 fullname = path + name
 print("... Attempting to write", fullname, "\n")
