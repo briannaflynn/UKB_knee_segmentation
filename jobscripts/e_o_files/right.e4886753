@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "../scripts/femur_tibia_angle_centered.py", line 451, in <module>
+    data = runner(lines, path, df)
+  File "../scripts/femur_tibia_angle_centered.py", line 369, in runner
+    image = Image.open(input)
+  File "/work2/05515/bflynn/maverick2/software/anaconda3/lib/python3.7/site-packages/PIL/Image.py", line 2809, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/content/1.2.840.113619.2.110.210419.20150904160158.2.9.12.1_prediction.png'
+mv: cannot stat ‘*_center_axis_angle.png’: No such file or directory
