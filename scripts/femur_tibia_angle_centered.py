@@ -450,3 +450,4 @@ col_list = ['file', 'tibiofemoral_angle']
 df = data_init(col_list)    
 data = runner(lines, path, df)
 print(data)
+data.to_csv(fullname, index=False)
