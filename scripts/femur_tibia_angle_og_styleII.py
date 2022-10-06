@@ -325,8 +325,14 @@ def get_idx(x_array, yval, sample = 20):
     end = yval + sample
     
     x = x_array[yval:end]
-    diffs = [abs(i[-1] - i[0]) for i in x]
-    measurement_index = iter_x(diffs)
+    for i in range(len(x)):
+        x_vals[i] = x[i]
+    x_vals = {k:v for k,v in x_vals.items() if v.size != 0}
+
+    xi = [v for v in x_vals.values()]
+    diffs = [abs(i[-1] - i[0]) for i in xi]
+
+    measurement_index = [k for k, v in diff_vals.items()][iter_x(diffs)]
     
     measurement_index = yval + measurement_index
 
